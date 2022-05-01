@@ -1,0 +1,37 @@
+version: "3.3"
+
+
+networks:
+  traefik-public:
+    external: true
+
+volumes:
+  portainer_data:
+
+services:
+  portainer:
+    image: portainer/portainer-ce:2.1.1
+    command: -H unix:///var/run/docker.sock
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
+    ports:
+      - 9000:9000
+
+    deploy:
+      placement:
+        constraints:
+          - node.labels.portainer-data=true == true
+
+      labels:
+        # Frontend
+        - traefik.enable=true
+        - traefik.constraint-label=traefik-public
+        - traefik.http.routers.portainer.rule=Host(`${PORTAINER_DOMAIN}`)
+        - traefik.http.routers.portainer.entrypoints=websecure
+        - traefik.http.routers.portainer.tls.certresolver=le
+        - traefik.http.services.portainer.loadbalancer.server.port=9000
+
+    networks:
+      - traefik-public
