@@ -22,7 +22,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.labels.portainer-data=true == true
+          - node.labels.portainer-data == true
 
       labels:
         # Frontend
