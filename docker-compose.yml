@@ -29,10 +29,11 @@ services:
 
   portainer:
     image: portainer/portainer-ce:2.15.1
-    command: -H tcp://tasks.agent:9001 --tlsskipverify
+    command: -H unix:///var/run/docker.sock
     ports:
       - "8000:8000"
     volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
     
     networks:
@@ -50,6 +51,7 @@ services:
         # Frontend
         - traefik.enable=true
         - traefik.constraint-label=traefik-public
+        - traefik.docker.network=traefik-public
         - traefik.http.routers.portainer.rule=Host(`${PORTAINER_DOMAIN}`)
         - traefik.http.routers.portainer.entrypoints=websecure
         - traefik.http.routers.portainer.tls.certresolver=le
