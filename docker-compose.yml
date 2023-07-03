@@ -32,6 +32,10 @@ services:
     command: -H unix:///var/run/docker.sock
     ports:
       - "8000:8000"
+
+      # expose the HTTP port, but remember to keep it blocked on the Firewall. It's useful if traefik is broken and dodges a chicken-and-egg problem.
+      - "9000:9000"
+      
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
