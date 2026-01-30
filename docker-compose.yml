@@ -28,7 +28,7 @@ services:
           - node.platform.os == linux
 
   portainer:
-    image: portainer/portainer-ce:2.34.0
+    image: portainer/portainer-ce:2.38.0
     command: -H unix:///var/run/docker.sock
     ports:
       - "8000:8000"
