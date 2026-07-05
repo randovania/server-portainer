@@ -55,7 +55,7 @@ services:
         # Frontend
         - traefik.enable=true
         - traefik.constraint-label=traefik-public
-        - traefik.docker.network=traefik-public
+        - traefik.swarm.network=traefik-public
         - traefik.http.routers.portainer.rule=Host(`${PORTAINER_DOMAIN}`)
         - traefik.http.routers.portainer.entrypoints=websecure
         - traefik.http.routers.portainer.tls.certresolver=le
